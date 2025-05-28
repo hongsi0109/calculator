@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>계산기</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      background-color: #f8f8f8;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .calculator {
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      padding: 20px;
+      background: #f3f3f2;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+      width: 320px;
+      margin-top: 40px;
+    }
+
+    #display2 {
+      width: 100%;
+      height: 50px;
+      font-size: 24px;
+      text-align: right;
+      padding: 10px;
+      border: 1px solid #000;
+      background: white;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-spacing: 5px;
+    }
+
+    td {
+      padding: 0;
+    }
+
+    button {
+      width: 100%;
+      height: 50px;
+      font-size: 18px;
+      font-weight: 550;
+      border: 1px solid #bbb;
+      cursor: pointer;
+      background: #e0e0e0;
+      transition: 0.2s;
+      border-radius: 8px;
+    }
+
+    .operator {
+      background: #ffcc00;
+    }
+
+    .operator:hover {
+      background: #ffe066;
+    }
+
+    .ce {
+      background: #dcdcdc;
+    }
+
+    .logo {
+      font-family: 'Dancing Script', cursive;
+      font-size: 16px;
+      text-align: center;
+      margin-top: 12px;
+      color: #444;
+    }
+
+    .desc {
+      margin-top: 30px;
+      padding: 20px;
+      width: 90%;
+      max-width: 700px;
+      background: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .desc h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .desc ul {
+      padding-left: 20px;
+    }
+
+    .desc li {
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div id="display2">0</div>
+    <table>
+      <tr>
+        <td><button onclick="memoryClear()">mc</button></td>
+        <td><button onclick="memoryRecall()">mr</button></td>
+        <td><button onclick="memorySubtract()">m-</button></td>
+        <td><button onclick="memoryAdd()">m+</button></td>
+      </tr>
+      <tr>
+        <td><button class="ce" onclick="clearDisplay()">AC</button></td>
+        <td><button class="ce" onclick="squareRoot()">√x</button></td>
+        <td><button class="ce" onclick="percent()">%</button></td>
+        <td><button class="operator" onclick="operatorButton('÷')">÷</button></td>
+      </tr>
+      <tr>
+        <td><button onclick="numberButton('7')">7</button></td>
+        <td><button onclick="numberButton('8')">8</button></td>
+        <td><button onclick="numberButton('9')">9</button></td>
+        <td><button class="operator" onclick="operatorButton('×')">×</button></td>
+      </tr>
+      <tr>
+        <td><button onclick="numberButton('4')">4</button></td>
+        <td><button onclick="numberButton('5')">5</button></td>
+        <td><button onclick="numberButton('6')">6</button></td>
+        <td><button class="operator" onclick="operatorButton('-')">-</button></td>
+      </tr>
+      <tr>
+        <td><button onclick="numberButton('1')">1</button></td>
+        <td><button onclick="numberButton('2')">2</button></td>
+        <td><button onclick="numberButton('3')">3</button></td>
+        <td><button class="operator" onclick="operatorButton('+')">+</button></td>
+      </tr>
+      <tr>
+        <td><button onclick="numberButton('0')">0</button></td>
+        <td><button onclick="numberButton('.')">.</button></td>
+        <td><button onclick="toggleSign()">+/-</button></td>
+        <td><button class="operator" onclick="equalButton()">=</button></td>
+      </tr>
+      <tr>
+        <td><button onclick="inputPi()">π</button></td>
+        <td><button onclick="power()">xʸ</button></td>
+        <td><button onclick="round2()">R2</button></td>
+        <td><button onclick="round0()">R0</button></td>
+      </tr>
+    </table>
+    <div class="logo">홍준혁 20243081</div>
+  </div>
+
+  <!-- 설명 추가 영역 -->
+  <div class="desc">
+    <h2>📌 계산기 기능 설명</h2>
+    <ul>
+      <li><strong>기본 연산:</strong> +, -, ×, ÷ 사칙연산을 수행합니다.</li>
+      <li><strong>제곱 계산(xʸ):</strong> 첫 번째 숫자를 입력 후 'xʸ' 버튼을 누르고 두 번째 숫자를 입력하면 거듭제곱을 계산합니다.</li>
+      <li><strong>제곱근(√x):</strong> 현재 표시된 숫자의 제곱근을 계산합니다.</li>
+      <li><strong>퍼센트(%):</strong> 현재 숫자를 100으로 나누어 백분율로 변환합니다.</li>
+      <li><strong>소수점 반올림:</strong> 'R2'는 소수 둘째자리까지 반올림, 'R0'은 정수로 반올림합니다.</li>
+      <li><strong>π 입력:</strong> 파이(π = 3.14159265)를 입력합니다.</li>
+      <li><strong>부호 전환(+/-):</strong> 현재 숫자의 부호를 반대로 바꿉니다.</li>
+      <li><strong>AC:</strong> 모든 값을 초기화하고 화면을 0으로 리셋합니다.</li>
+      <li><strong>메모리 기능:</strong> 
+        <ul>
+          <li><strong>mc:</strong> 메모리 값을 0으로 초기화</li>
+          <li><strong>mr:</strong> 메모리에 저장된 값을 화면에 불러오기</li>
+          <li><strong>m+:</strong> 현재 화면 값을 메모리에 더하기</li>
+          <li><strong>m-:</strong> 현재 화면 값을 메모리에서 빼기</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    let curValue = 0;
+    let operator = "";
+    let isNewInput = true;
+    let memory = 0;
+
+    function updateDisplay(value) {
+      document.getElementById("display2").innerText = value;
+    }
+
+    function getDisplayValue() {
+      return parseFloat(document.getElementById("display2").innerText);
+    }
+
+    function numberButton(num) {
+      if (isNewInput || document.getElementById("display2").innerText === "0") {
+        updateDisplay(num);
+      } else {
+        updateDisplay(document.getElementById("display2").innerText + num);
+      }
+      isNewInput = false;
+    }
+
+    function operatorButton(op) {
+      curValue = getDisplayValue();
+      operator = op;
+      isNewInput = true;
+    }
+
+    function equalButton() {
+      let newValue = getDisplayValue();
+      let result = 0;
+      switch(operator) {
+        case '+': result = curValue + newValue; break;
+        case '-': result = curValue - newValue; break;
+        case '×': result = curValue * newValue; break;
+        case '÷': result = curValue / newValue; break;
+        case '^': result = Math.pow(curValue, newValue); break;
+        default: result = newValue;
+      }
+      updateDisplay(result);
+      isNewInput = true;
+    }
+
+    function clearDisplay() {
+      updateDisplay(0);
+      curValue = 0;
+      operator = "";
+      isNewInput = true;
+    }
+
+    function squareRoot() {
+      updateDisplay(Math.sqrt(getDisplayValue()));
+      isNewInput = true;
+    }
+
+    function percent() {
+      updateDisplay(getDisplayValue() / 100);
+    }
+
+    function toggleSign() {
+      updateDisplay(getDisplayValue() * -1);
+    }
+
+    function inputPi() {
+      updateDisplay(Math.PI.toFixed(8));
+      isNewInput = true;
+    }
+
+    function power() {
+      curValue = getDisplayValue();
+      operator = '^';
+      isNewInput = true;
+    }
+
+    function round2() {
+      updateDisplay(getDisplayValue().toFixed(2));
+    }
+
+    function round0() {
+      updateDisplay(Math.round(getDisplayValue()));
+    }
+
+    function memoryClear() {
+      memory = 0;
+    }
+
+    function memoryRecall() {
+      updateDisplay(memory);
+      isNewInput = true;
+    }
+
+    function memoryAdd() {
+      memory += getDisplayValue();
+    }
+
+    function memorySubtract() {
+      memory -= getDisplayValue();
+    }
+  </script>
+</body>
+</html>
